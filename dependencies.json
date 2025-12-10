@@ -1,0 +1,39 @@
+{
+  "name": "grasshopper-container-dependencies",
+  "version": "1.0.0",
+  "description": "Dependency repositories for open-source Grasshopper Container",
+  "dependencies": [
+    {
+      "name": "volttron",
+      "description": "VOLTTRON platform - official release",
+      "type": "git",
+      "url": "https://github.com/VOLTTRON/volttron.git",
+      "branch": "releases/9.0.4",
+      "commit": "latest",
+      "required_paths": [
+        "volttron",
+        "setup.py"
+      ],
+      "notes": "Using official VOLTTRON releases/9.0.4 branch"
+    },
+    {
+      "name": "grasshopper",
+      "description": "Grasshopper BACnet network monitoring agent",
+      "type": "git",
+      "url": "https://github.com/ACE-IoT-Solutions/grasshopper.git",
+      "branch": "main",
+      "commit": "latest",
+      "required_paths": [
+        "Grasshopper/grasshopper/agent.py",
+        "Grasshopper/setup.py"
+      ],
+      "notes": "Open-source BACnet network discovery and visualization agent"
+    }
+  ],
+  "notes": {
+    "update_strategy": "Run ./scripts/update-deps.sh to pull latest versions",
+    "version_lock": "Edit this file to pin specific commits for reproducible builds",
+    "local_development": "Dependencies are cloned locally to deps/ directory",
+    "public_repos": "All dependencies use public HTTPS URLs for open-source builds"
+  }
+}

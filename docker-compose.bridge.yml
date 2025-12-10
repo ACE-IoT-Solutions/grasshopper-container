@@ -1,0 +1,41 @@
+# Grasshopper Container - Docker Compose (Bridge Network Mode)
+#
+# Bridge Networking Mode (Development/Testing)
+#
+# Note: BACnet broadcast discovery is limited in this mode.
+# Use this for development or when connecting via BBMD/foreign device.
+#
+# Usage:
+#   docker compose -f docker-compose.bridge.yml up -d
+
+services:
+  grasshopper:
+    image: ghcr.io/ace-iot-solutions/grasshopper-container:latest
+    container_name: grasshopper
+    ports:
+      - "5000:5000"       # Web UI
+      - "47808:47808/udp" # BACnet/IP
+    environment:
+      # BACnet Configuration
+      - BACNET_ADDRESS=0.0.0.0/24:47808
+      - BACNET_NAME=Grasshopper
+      - BACNET_INSTANCE=708114
+
+      # Foreign Device Registration (uncomment to enable)
+      # - BACNET_FOREIGN="192.168.1.1"
+      # - BACNET_TTL=60
+
+      # Web Interface
+      - WEBAPP_ENABLED=true
+      - WEBAPP_HOST=0.0.0.0
+      - WEBAPP_PORT=5000
+
+      # Scan Settings
+      - SCAN_INTERVAL_SECS=86400
+
+    restart: unless-stopped
+    volumes:
+      - grasshopper-data:/home/volttron/.grasshopper-volttron
+
+volumes:
+  grasshopper-data:

@@ -1,0 +1,39 @@
+# Grasshopper Container - Docker Compose Example
+#
+# Host Networking Mode (Recommended for BACnet discovery)
+#
+# Usage:
+#   1. Edit BACNET_ADDRESS to match your network interface IP
+#   2. Run: docker compose up -d
+#   3. Access web UI at http://localhost:5000
+
+services:
+  grasshopper:
+    image: ghcr.io/ace-iot-solutions/grasshopper-container:latest
+    container_name: grasshopper
+    network_mode: host
+    environment:
+      # BACnet Configuration
+      # IMPORTANT: Set BACNET_ADDRESS to your host's IP on the BACnet network
+      - BACNET_ADDRESS=192.168.1.100/24:47808
+      - BACNET_NAME=Grasshopper
+      - BACNET_INSTANCE=708114
+      - BACNET_VENDOR_ID=1318
+
+      # Web Interface
+      - WEBAPP_ENABLED=true
+      - WEBAPP_HOST=0.0.0.0
+      - WEBAPP_PORT=5000
+
+      # Scan Settings
+      - SCAN_INTERVAL_SECS=86400
+      - LOW_LIMIT=0
+      - HIGH_LIMIT=4194303
+
+    restart: unless-stopped
+    volumes:
+      # Persist VOLTTRON data between restarts
+      - grasshopper-data:/home/volttron/.grasshopper-volttron
+
+volumes:
+  grasshopper-data:
