@@ -96,12 +96,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull and test image
+        env:
+          SHORT_SHA: ${{ github.sha }}
         run: |
-          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+          # metadata-action uses short sha (7 chars)
+          SHORT_SHA=${SHORT_SHA::7}
+          docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${SHORT_SHA}
           # Basic smoke test - check that the image starts and VOLTTRON initializes
           docker run -d --name grasshopper-test \
             -e BACNET_ADDRESS=10.0.0.1/24:47808 \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${SHORT_SHA}
 
           # Wait for startup
           sleep 30
