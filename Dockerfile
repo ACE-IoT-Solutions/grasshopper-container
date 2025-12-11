@@ -75,6 +75,7 @@ RUN /root/.local/bin/uv pip install --system \
     pyvis>=0.3.2 \
     fastapi>=0.110.0 \
     uvicorn>=0.27.1 \
+    python-multipart \
     bacpypes3>=0.0.91
 
 # Build Grasshopper frontend
